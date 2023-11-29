@@ -5,6 +5,8 @@ const authRouter = require("./routes/auth");
 
 const PORT = 2222;
 
+app.use(express.json());
+
 app.use("/auth", authRouter);
 
 app.listen(PORT, () => {
