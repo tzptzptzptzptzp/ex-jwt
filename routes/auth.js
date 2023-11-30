@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const { USER } = require("../db/User");
 
@@ -11,7 +14,7 @@ router.post(
   "/register",
   body("email").isEmail(),
   body("password").isLength({ min: 6 }),
-  (req, res) => {
+  async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
@@ -28,7 +31,32 @@ router.post(
         },
       ]);
     }
+
+    let hashedPassword = await bcrypt.hash(password, 10);
+
+    USER.push({
+      email,
+      password: hashedPassword,
+    });
+
+    const token = await jwt.sign(
+      {
+        email,
+      },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "24h",
+      }
+    );
+
+    return res.json({
+      token: token,
+    });
   }
 );
+
+router.get("/users", (req, res) => {
+  return res.send(USER);
+});
 
 module.exports = router;
