@@ -31,6 +31,11 @@ router.post(
     }
 
     let hashedPassword = await bcrypt.hash(password, 10);
+
+    USER.push({
+      email,
+      password: hashedPassword,
+    });
   }
 );
 
