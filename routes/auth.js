@@ -39,4 +39,8 @@ router.post(
   }
 );
 
+router.get("/users", (req, res) => {
+  return res.send(USER);
+});
+
 module.exports = router;
