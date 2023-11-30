@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 
 const { USER } = require("../db/User");
 
@@ -11,7 +12,7 @@ router.post(
   "/register",
   body("email").isEmail(),
   body("password").isLength({ min: 6 }),
-  (req, res) => {
+  async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
@@ -28,6 +29,8 @@ router.post(
         },
       ]);
     }
+
+    let hashedPassword = await bcrypt.hash(password, 10);
   }
 );
 
