@@ -56,6 +56,43 @@ router.post(
   }
 );
 
+// ユーザーログインAPI
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = USER.find((user) => user.email === email);
+  if (!user) {
+    return res.status(400).json([
+      {
+        message: "User does not exist",
+      },
+    ]);
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(400).json([
+      {
+        message: "Incorrect password",
+      },
+    ]);
+  }
+
+  const token = await jwt.sign(
+    {
+      email,
+    },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: "24h",
+    }
+  );
+
+  return res.json({
+    token: token,
+  });
+});
+
 // ユーザー一覧取得API
 router.get("/users", (req, res) => {
   return res.send(USER);
