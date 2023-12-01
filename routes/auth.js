@@ -10,6 +10,7 @@ router.get("/", (req, res) => {
   res.send("Auth Route");
 });
 
+// ユーザー新規作成API
 router.post(
   "/register",
   body("email").isEmail(),
@@ -55,6 +56,7 @@ router.post(
   }
 );
 
+// ユーザー一覧取得API
 router.get("/users", (req, res) => {
   return res.send(USER);
 });
