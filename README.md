@@ -19,3 +19,23 @@ npm start // サーバー起動
 ```
 
 ---
+
+## Introduction
+
+This is an API built using Express.  
+It performs authentication using JWT.
+
+## Technologies Used
+
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [JWT](https://jwt.io/)
+
+## Development Procedure
+
+We use npm for development.
+
+```bash
+npm
+npm start // Start the server
+```
